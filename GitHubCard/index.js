@@ -57,7 +57,12 @@ const followersArray = [];
       </div>
     </div>
 */
-function cardMaker(object){
+
+const entryPoint = document.querySelector('.cards')
+console.log(entryPoint);
+
+
+function cardMaker({name, login, location, ...rest}){
 
   //create elements
   const cardDiv = document.createElement('div');
@@ -74,8 +79,34 @@ function cardMaker(object){
 
   //append
   cardDiv.appendChild(cardImg);
+  cardDiv.appendChild(cardInfoDiv);
+  cardInfoDiv.appendChild(cardName);
+  cardInfoDiv.appendChild(cardUsername);
+  cardInfoDiv.appendChild(cardLocation);
+  cardInfoDiv.appendChild(cardProfile);
+  cardInfoDiv.appendChild(profileLink);
+  cardInfoDiv.appendChild(cardFollowers);
+  cardInfoDiv.appendChild(cardFollowing);
+  cardInfoDiv.appendChild(cardBio);
 
+  //add classes
+  cardDiv.classList.add('card');
+  cardInfoDiv.classList.add('card-info');
+  cardName.classList.add('name');
+  cardUsername.classList.add('username');
 
+  //add text content
+  cardImg.textContent = avatar_url;
+  cardName.textContent = name;
+  cardUsername.textContent = login
+  cardLocation.textContent = 'Location: ' location;
+  cardProfile.textContent = 'Profile:'
+  profileLink.textContent = html_url;
+  cardFollowers.textContent = 'Followers: ' followers;
+  cardFollowing.textContent = 'Following: ' cardFollowing;
+  cardBio.textContent = 'Bio: ' bio;
+
+  this is a test comment so i can push
 }
 /*
   List of LS Instructors Github username's:
