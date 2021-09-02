@@ -9,9 +9,12 @@ const URL = 'https://api.github.com/users/MatthewMion'
 axios.get(URL)
   .then(response => {
     console.log(response)
+    const card = cardMaker(response.data)
+    entryPoint.appendChild(card)
   })
   .catch(err => {
     console.log(err)
+    
   })
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
@@ -62,7 +65,7 @@ const entryPoint = document.querySelector('.cards')
 console.log(entryPoint);
 
 
-function cardMaker({name, login, location, ...rest}){
+function cardMaker({name, login, location, avatar_url, html_url, followers, following, bio}){
 
   //create elements
   const cardDiv = document.createElement('div');
@@ -98,15 +101,15 @@ function cardMaker({name, login, location, ...rest}){
   //add text content
   cardImg.textContent = avatar_url;
   cardName.textContent = name;
-  cardUsername.textContent = login
-  cardLocation.textContent = 'Location: ' location;
-  cardProfile.textContent = 'Profile:'
+  cardUsername.textContent = login;
+  cardLocation.textContent = `Location: ${location}`;
+  cardProfile.textContent = 'Profile:';
   profileLink.textContent = html_url;
-  cardFollowers.textContent = 'Followers: ' followers;
-  cardFollowing.textContent = 'Following: ' cardFollowing;
-  cardBio.textContent = 'Bio: ' bio;
+  cardFollowers.textContent = `Followers: ${followers}`;
+  cardFollowing.textContent = `Following: ${following}`;
+  cardBio.textContent = `Bio: ${bio}`;
 
-  this is a test comment so i can push
+  return cardDiv;
 }
 /*
   List of LS Instructors Github username's:
