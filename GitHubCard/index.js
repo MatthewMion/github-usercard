@@ -3,9 +3,12 @@
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
+
+const { default: axios } = require("axios")
+
 // const axios = require('axios');
 const URL = 'https://api.github.com/users/MatthewMion'
-
+// const resp = await axios.get('https://api.github.com/users/MatthewMion')
 axios.get(URL)
   .then(response => {
     console.log(response)
@@ -13,7 +16,9 @@ axios.get(URL)
     entryPoint.appendChild(card)
   })
   .catch(err => {
-    console.log(err)
+    const errorMessage = document.createElement('p');
+    errorMessage.textContent = 'Please Try Again Later =(';
+    document.body.appendChild(errorMessage);
     
   })
 /*
@@ -28,7 +33,13 @@ axios.get(URL)
   STEP 4: Pass the data received from Github into your function,
     and append the returned markup to the DOM as a child of .cards
 */
+// const cardDivs = .map(card => {
+//   return cardMaker(card)
+// })
 
+// cardDivs.forEach(cardDiv =>{
+//   entryPoint.appendChild(cardDiv)
+// })
 /*
   STEP 5: Now that you have your own card getting added to the DOM, either
     follow this link in your browser https://api.github.com/users/<Your github name>/followers,
@@ -87,7 +98,7 @@ function cardMaker({name, login, location, avatar_url, html_url, followers, foll
   cardInfoDiv.appendChild(cardUsername);
   cardInfoDiv.appendChild(cardLocation);
   cardInfoDiv.appendChild(cardProfile);
-  cardInfoDiv.appendChild(profileLink);
+  cardProfile.appendChild(profileLink);
   cardInfoDiv.appendChild(cardFollowers);
   cardInfoDiv.appendChild(cardFollowing);
   cardInfoDiv.appendChild(cardBio);
@@ -103,8 +114,8 @@ function cardMaker({name, login, location, avatar_url, html_url, followers, foll
   cardName.textContent = name;
   cardUsername.textContent = login;
   cardLocation.textContent = `Location: ${location}`;
-  cardProfile.textContent = 'Profile:';
-  profileLink.textContent = html_url;
+  cardProfile.textContent = `Profile: ${html_url}`;
+  // profileLink.textContent = html_url;
   cardFollowers.textContent = `Followers: ${followers}`;
   cardFollowing.textContent = `Following: ${following}`;
   cardBio.textContent = `Bio: ${bio}`;
