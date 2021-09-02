@@ -5,7 +5,8 @@
 */
 
 const { default: axios } = require("axios")
-
+const entryPoint = document.querySelector('.cards')
+console.log(entryPoint);
 // const axios = require('axios');
 const URL = 'https://api.github.com/users/MatthewMion'
 // const resp = await axios.get('https://api.github.com/users/MatthewMion')
@@ -51,8 +52,21 @@ axios.get(URL)
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = ['https://api.github.com/users/tetondan', 'https://api.github.com/users/dusstinmyers', 'https://api.github.com/users/justsml', 'https://api.github.com/users/luishrd', 'https://api.github.com/users/bigknell'];
 
+// tetondan
+// dustinmyers
+// justsml
+// luishrd
+// bigknell
+
+const cardDivs = followersArray.map(card => {
+  return cardMaker(card)
+})
+
+cardDivs.forEach(cardDiv =>{
+  entryPoint.appendChild(cardDiv)
+})
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
     Using DOM methods and properties, create and return the following markup:
@@ -72,8 +86,6 @@ const followersArray = [];
     </div>
 */
 
-const entryPoint = document.querySelector('.cards')
-console.log(entryPoint);
 
 
 function cardMaker({name, login, location, avatar_url, html_url, followers, following, bio}){
