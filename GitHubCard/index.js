@@ -5,16 +5,13 @@
 */
 
 const { default: axios } = require("axios")
+
 const entryPoint = document.querySelector('.cards')
-console.log(entryPoint);
-// const axios = require('axios');
 const URL = 'https://api.github.com/users/MatthewMion'
-// const resp = await axios.get('https://api.github.com/users/MatthewMion')
 axios.get(URL)
   .then(response => {
-    console.log(response)
     const card = cardMaker(response.data)
-    entryPoint.appendChild(card)
+    entryPoint.prepend(card)
   })
   .catch(err => {
     const errorMessage = document.createElement('p');
@@ -34,13 +31,6 @@ axios.get(URL)
   STEP 4: Pass the data received from Github into your function,
     and append the returned markup to the DOM as a child of .cards
 */
-// const cardDivs = .map(card => {
-//   return cardMaker(card)
-// })
-
-// cardDivs.forEach(cardDiv =>{
-//   entryPoint.appendChild(cardDiv)
-// })
 /*
   STEP 5: Now that you have your own card getting added to the DOM, either
     follow this link in your browser https://api.github.com/users/<Your github name>/followers,
@@ -52,7 +42,7 @@ axios.get(URL)
     user, and adding that card to the DOM.
 */
 
-const followersArray = ['https://api.github.com/users/tetondan', 'https://api.github.com/users/dusstinmyers', 'https://api.github.com/users/justsml', 'https://api.github.com/users/luishrd', 'https://api.github.com/users/bigknell'];
+const followersArray = ['tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigknell'];
 
 // tetondan
 // dustinmyers
@@ -60,13 +50,22 @@ const followersArray = ['https://api.github.com/users/tetondan', 'https://api.gi
 // luishrd
 // bigknell
 
-const cardDivs = followersArray.map(card => {
-  return cardMaker(card)
-})
+const urlArray = followersArray.map(username => 'https://api.github.com/users/' + username)
+// console.log(urlArray)
+const promiseArray = urlArray.map(url => axios.get(url))
+// console.log(promiseArray)
 
-cardDivs.forEach(cardDiv =>{
-  entryPoint.appendChild(cardDiv)
+Promise.all(promiseArray)
+.then(responses => {
+  responses.forEach(response =>{
+  const followerCard = cardMaker(response.data)
+  entryPoint.appendChild(followerCard)
+  console.log(followerCard)
+  })
 })
+.catch(err => console.log(err))
+
+
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
     Using DOM methods and properties, create and return the following markup:
@@ -99,6 +98,7 @@ function cardMaker({name, login, location, avatar_url, html_url, followers, foll
   const cardLocation = document.createElement('p');
   const cardProfile = document.createElement('p');
   const profileLink = document.createElement('a');
+  const profileSpan = document.createElement('span')
   const cardFollowers = document.createElement('p');
   const cardFollowing = document.createElement('p');
   const cardBio = document.createElement('p');
@@ -110,24 +110,28 @@ function cardMaker({name, login, location, avatar_url, html_url, followers, foll
   cardInfoDiv.appendChild(cardUsername);
   cardInfoDiv.appendChild(cardLocation);
   cardInfoDiv.appendChild(cardProfile);
+  cardProfile.appendChild(profileSpan)
   cardProfile.appendChild(profileLink);
   cardInfoDiv.appendChild(cardFollowers);
   cardInfoDiv.appendChild(cardFollowing);
   cardInfoDiv.appendChild(cardBio);
 
   //add classes
+
   cardDiv.classList.add('card');
   cardInfoDiv.classList.add('card-info');
   cardName.classList.add('name');
   cardUsername.classList.add('username');
 
   //add text content
-  cardImg.textContent = avatar_url;
+
+  cardImg.src = avatar_url;
   cardName.textContent = name;
   cardUsername.textContent = login;
   cardLocation.textContent = `Location: ${location}`;
-  cardProfile.textContent = `Profile: ${html_url}`;
-  // profileLink.textContent = html_url;
+  profileSpan.textContent = 'Profile: '
+  profileLink.href = html_url;
+  profileLink.textContent =  `${profileLink}`;
   cardFollowers.textContent = `Followers: ${followers}`;
   cardFollowing.textContent = `Following: ${following}`;
   cardBio.textContent = `Bio: ${bio}`;
